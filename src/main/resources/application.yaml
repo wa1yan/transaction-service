@@ -1,0 +1,29 @@
+server:
+  port: 8083
+spring:
+  application:
+    name: transaction-service
+  profiles:
+    active: dev
+  config:
+    import: optional:configserver:http://localhost:8888?fail-fast=true&max-attempts=10&max-interval=1500&multiplier=1.2&initial-interval=1100
+  cloud:
+    config:
+      label: main
+      fail-fast: true
+      name: ${spring.application.name}
+
+#need to refresh for config client after updating on config data
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+logging:
+  level:
+    org:
+      springframework:
+        cloud: DEBUG
+
+
